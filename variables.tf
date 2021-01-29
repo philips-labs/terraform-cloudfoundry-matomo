@@ -5,8 +5,7 @@ variable "cf_org_name" {
 
 variable "cf_app_domain" {
   description = "The Cloudfoundry regular app domain to use"
-  type        = string
-  default     = ""
+  type        = string  
 }
 
 variable "cf_user" {
@@ -22,7 +21,7 @@ variable "name_postfix" {
 
 variable "matomo_image" {
   description = "Image to use for matomo app"
-  default     = "matomo:latest"
+  default     = "philipslabs/cf-matomo:latest"
   type        = string
 }
 
