@@ -1,4 +1,3 @@
-
 resource "random_id" "id" {
   byte_length = 8
 }
@@ -10,6 +9,12 @@ resource "random_password" "password" {
 locals {
   postfix_name  = var.name_postfix != "" ? var.name_postfix : random_id.id.hex
   matomo_routes = [cloudfoundry_route.matomo.id, cloudfoundry_route.matomo_internal.id]
+}
+
+resource "random_string" "random" {
+  length = 32
+  special = false  
+  upper = false
 }
 
 
@@ -30,7 +35,8 @@ resource "cloudfoundry_app" "matomo" {
     MATOMO_DATABASE_PASSWORD      = cloudfoundry_service_key.database_key.credentials.password
     MATOMO_DATABASE_DBNAME        = cloudfoundry_service_key.database_key.credentials.db_name
     MATOMO_DOMAINS                = cloudfoundry_route.matomo.endpoint
-    MATOMO_ADMIN_PASSWORD         = random_password.password.result    
+    MATOMO_ADMIN_PASSWORD         = random_password.password.result   
+    MATOMO_GENERAL_SALT           = random_string.random.result 
   }, var.environment)
 
   dynamic "routes" {
