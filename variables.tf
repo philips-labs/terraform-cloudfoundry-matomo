@@ -1,21 +1,21 @@
 variable "cf_org_name" {
-  description = "Cloudfoundry ORG name to use for reverse proxy"
+  description = "Cloudfoundry ORG name to deploy to."
   type        = string
 }
 
 variable "cf_app_domain" {
-  description = "The Cloudfoundry regular app domain to use"
+  description = "The Cloudfoundry app domain to use for routes to matomo"
   type        = string  
 }
 
 variable "cf_user" {
-  description = "The Cloudfoundry user to assign rights to the app to"
+  description = "The Cloudfoundry user to assign rights to the app/space to"
   type        = string
 }
 
 variable "name_postfix" {
   type        = string
-  description = "The postfix string to append to the space, hostname, etc. Prevents namespace clashes"
+  description = "The postfix string to append to the space name. Prevents namespace clashes"
   default     = ""
 }
 
@@ -32,7 +32,7 @@ variable "matomo_image" {
 
 variable "environment" {
   type        = map(any)
-  description = "Pass environment variable to the app"
+  description = "Pass extra environment variables to the app"
   default     = {}
 }
 
