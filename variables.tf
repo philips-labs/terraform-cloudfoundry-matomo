@@ -19,6 +19,11 @@ variable "name_postfix" {
   default     = ""
 }
 
+variable "hostname" {
+  type = string
+  description = "The hostname to use on the cf_app_domain for public access"  
+}
+
 variable "matomo_image" {
   description = "Image to use for matomo app"
   default     = "philipslabs/cf-matomo:latest"
