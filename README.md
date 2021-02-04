@@ -14,6 +14,7 @@ module "Matomo" {
   docker_password = "my-docker-pass"
   docker_username = "my-docker-user"
   hostname        = "my-analytics"
+  matomo_image    = "philipslabs/cf-matomo:4.1-apache"
 }
 ```
 
@@ -43,6 +44,8 @@ cf restart Matomo
 ```
 
 You should then have a configured Matomo instance that you can use, subsequent restarts or deployments should not need this step.
+
+You should ensure that you select specific tag from https://hub.docker.com/r/philipslabs/cf-matomo for your docker container and note that the default is just to use `philipslabs/cf-matomo:latest`
 
 ## Requirements
 
