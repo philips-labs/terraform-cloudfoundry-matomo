@@ -1,4 +1,5 @@
-FROM matomo:4.1-apache
+ARG MATOMO_VERSION
+FROM matomo:$MATOMO_VERSION
 
 
 # Install envsubst

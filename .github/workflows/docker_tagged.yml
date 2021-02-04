@@ -24,9 +24,9 @@ jobs:
           # We must fetch at least the immediate parents so that if this is
           # a pull request then we can checkout the head.
           fetch-depth: 2
-      - name: Set output
-        id: vars
-        run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
+      - name: Get matomo version
+        id: matomo_version
+        run: echo ::set-output name=matomo_version::$(cat ./matomo/version)
       - name: Build and push
         id: docker_build
         uses: docker/build-push-action@v2
@@ -35,6 +35,8 @@ jobs:
           file: ./matomo/Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: philipslabs/cf-matomo:${{ steps.vars.outputs.tag }}
+          build-args: |
+            MATOMO_VERSION=${{ steps.matomo_version.outputs.matomo_version }}
+          tags: philipslabs/cf-matomo:${{ steps.matomo_version.outputs.matomo_version }}
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
