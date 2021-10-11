@@ -4,9 +4,9 @@ resource "random_password" "admin_password" {
 }
 
 resource "random_string" "matomo_salt" {
-  length = 32
-  special = false  
-  upper = false
+  length  = 32
+  special = false
+  upper   = false
 }
 
 resource "cloudfoundry_app" "matomo" {
@@ -26,8 +26,8 @@ resource "cloudfoundry_app" "matomo" {
     MATOMO_DATABASE_PASSWORD      = cloudfoundry_service_key.database_key.credentials.password
     MATOMO_DATABASE_DBNAME        = cloudfoundry_service_key.database_key.credentials.db_name
     MATOMO_DOMAINS                = cloudfoundry_route.matomo.endpoint
-    MATOMO_ADMIN_PASSWORD         = random_password.admin_password.result   
-    MATOMO_GENERAL_SALT           = random_string.matomo_salt.result 
+    MATOMO_ADMIN_PASSWORD         = random_password.admin_password.result
+    MATOMO_GENERAL_SALT           = random_string.matomo_salt.result
   }, var.environment)
 
   routes {
