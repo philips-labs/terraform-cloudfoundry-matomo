@@ -1,5 +1,5 @@
 locals {
-  postfix_name  = var.name_postfix != "" ? var.name_postfix : random_id.id.hex  
+  postfix_name = var.name_postfix != "" ? var.name_postfix : random_id.id.hex
 }
 
 resource "random_id" "id" {

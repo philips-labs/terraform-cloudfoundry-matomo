@@ -5,7 +5,7 @@ variable "cf_org_name" {
 
 variable "cf_app_domain" {
   description = "The Cloudfoundry app domain to use for routes to matomo"
-  type        = string  
+  type        = string
 }
 
 variable "cf_user" {
@@ -20,8 +20,8 @@ variable "name_postfix" {
 }
 
 variable "hostname" {
-  type = string
-  description = "The hostname to use on the cf_app_domain for public access"  
+  type        = string
+  description = "The hostname to use on the cf_app_domain for public access"
 }
 
 variable "matomo_image" {
