@@ -15,6 +15,8 @@ salt = "${MATOMO_GENERAL_SALT}"
 trusted_hosts[] = "${MATOMO_TRUSTED_HOST}"
 force_ssl = "${MATOMO_FORCE_SSL:1}"
 assume_secure_protocol = "${MATOMO_ASSUME_SSL:1}"1 
+; disable browser trigger archiving for all requests (even those with a segment)
+browser_archiving_disabled_enforce = 1
 
 [Plugins]
 Plugins[] = "CorePluginsAdmin"

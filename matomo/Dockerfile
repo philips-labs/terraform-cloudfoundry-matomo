@@ -19,8 +19,8 @@ COPY config.ini.tmpl.php config/
 COPY cf-entrypoint.sh /cf-entrypoint.sh
 
 COPY matomo-archive /etc/cron.d/matomo-archive
-RUN chmod 0644 /etc/cron.d/matomo-archive
-RUN crontab /etc/cron.d/matomo-archive
+RUN chmod 0644 /etc/cron.d/matomo-archive && \
+crontab /etc/cron.d/matomo-archive
 
 # Install the GeoIP database
 RUN curl -L -o /tmp/dbip.mmdb.gz https://download.db-ip.com/free/dbip-city-lite-2021-10.mmdb.gz && \

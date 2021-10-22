@@ -1,1 +1,1 @@
-5 * * * * www-data /usr/local/bin/php /var/www/html/console core:archive --url=http://localhost > /proc/1/fd/1 2>/proc/1/fd/2
+5 * * * * /usr/local/bin/php /var/www/html/console core:archive --url=http://localhost > /proc/1/fd/1 2>/proc/1/fd/2
