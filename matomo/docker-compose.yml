@@ -1,0 +1,39 @@
+version: '3.7'
+
+
+services:
+  db:
+    image: mysql
+    command: --max-allowed-packet=64MB --local-infile=ON
+    restart: always
+    volumes:
+      - db:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=password123
+      - MYSQL_DATABASE=matomo
+      - MYSQL_USER=matomo          
+      - MYSQL_PASSWORD=password123
+  matomo:
+    build: 
+      context: .
+      args:
+        MATOMO_VERSION: 4.5-apache
+    restart: always    
+    environment:
+      - MYSQL_ROOT_PASSWORD=matomo
+      - MYSQL_DATABASE=matomo
+      - MYSQL_USER=matomo          
+      - MYSQL_PASSWORD=password123
+      - MATOMO_DATABASE_HOST=db
+      - MATOMO_DATABASE_ADAPTER=mysql
+      - MATOMO_DATABASE_TABLES_PREFIX=matomo_
+      - MATOMO_DATABASE_USERNAME=matomo
+      - MATOMO_DATABASE_PASSWORD=password123
+      - MATOMO_DATABASE_DBNAME=matomo    
+      - MATOMO_FORCE_SSL=0
+      - MATOMO_TRUSTED_HOST="localhost:8080"
+    ports:
+      - 8080:80
+
+volumes:
+  db:  
