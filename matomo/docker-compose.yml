@@ -19,6 +19,8 @@ services:
       args:
         MATOMO_VERSION: 4.5-apache
     restart: always    
+    volumes:
+      - ./config.ini.tmpl.php:/var/www/html/config/config.ini.tmpl.php
     environment:
       - MYSQL_ROOT_PASSWORD=matomo
       - MYSQL_DATABASE=matomo
@@ -32,8 +34,21 @@ services:
       - MATOMO_DATABASE_DBNAME=matomo    
       - MATOMO_FORCE_SSL=0
       - MATOMO_TRUSTED_HOST="localhost:8080"
+      - OAUTH_AUTHORIZE_URL="https://hsdp-something.com/auth"
+      - OAUTH_TOKEN_URL="https://hsdp-something.com/auth"
+      - OAUTH_USERINFO_URL="https://hsdp-something.com/auth"
+      - OAUTH_ENDSESSION_URL="https://hsdp-something.com/auth"
+      - OAUTH_CLIENT_ID="myid"
+      - OAUTH_CLIENT_SECRET="somesecrets"
+      - OAUTH_REDIRECT_OVERRIDE=""
+      - OAUTH_SIGNUP_DOMAINS="@philps.com"
+          
     ports:
       - 8080:80
 
 volumes:
   db:  
+
+
+
+

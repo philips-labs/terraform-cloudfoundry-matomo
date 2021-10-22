@@ -13,9 +13,8 @@ proxy_client_headers[] = "HTTP_X_FORWARDED_FOR"
 proxy_host_headers[] = "HTTP_X_FORWARDED_HOST"
 salt = "${MATOMO_GENERAL_SALT}"
 trusted_hosts[] = "${MATOMO_TRUSTED_HOST}"
-force_ssl = "${MATOMO_FORCE_SSL:1}"
-assume_secure_protocol = "${MATOMO_ASSUME_SSL:1}"1 
-; disable browser trigger archiving for all requests (even those with a segment)
+force_ssl = "${MATOMO_FORCE_SSL:-1}"
+assume_secure_protocol = "${MATOMO_ASSUME_SSL:-1}"
 browser_archiving_disabled_enforce = 1
 
 [Plugins]
@@ -81,6 +80,7 @@ Plugins[] = "CustomJsTracker"
 Plugins[] = "Tour"
 Plugins[] = "PagePerformance"
 Plugins[] = "CustomDimensions"
+Plugins[] = "LoginOIDC"
 
 [PluginsInstalled]
 PluginsInstalled[] = "Diagnostics"
@@ -145,3 +145,23 @@ PluginsInstalled[] = "CustomJsTracker"
 PluginsInstalled[] = "Tour"
 PluginsInstalled[] = "PagePerformance"
 PluginsInstalled[] = "CustomDimensions"
+PluginsInstalled[] = "LoginOIDC"
+
+[LoginOIDC]
+disableSuperuser = 0
+disableDirectLoginUrl = 1
+allowSignup = 1
+bypassTwoFa = 1
+autoLinking = 1
+authenticationName = "HSDP"
+authorizeUrl = "${OAUTH_AUTHORIZE_URL}"
+tokenUrl = "${OAUTH_TOKEN_URL}"
+userinfoUrl = "${OAUTH_USERINFO_URL}"
+endSessionUrl = "${OAUTH_ENDSESSION_URL}"
+userinfoId = "id"
+clientId = "${OAUTH_CLIENT_ID}"
+clientSecret =  "${OAUTH_CLIENT_SECRET}"
+scope = "${OAUTH_SCOPE:-openid email}"
+redirectUriOverride = "${OAUTH_REDIRECT_OVERRIDE}"
+allowedSignupDomains = "${OAUTH_SIGNUP_DOMAINS}"
+     
