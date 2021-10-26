@@ -34,10 +34,10 @@ services:
       - MATOMO_DATABASE_DBNAME=matomo    
       - MATOMO_FORCE_SSL=0
       - MATOMO_TRUSTED_HOST="localhost:8080"
-      - OAUTH_AUTHORIZE_URL="https://hsdp-something.com/auth"
-      - OAUTH_TOKEN_URL="https://hsdp-something.com/auth"
-      - OAUTH_USERINFO_URL="https://hsdp-something.com/auth"
-      - OAUTH_ENDSESSION_URL="https://hsdp-something.com/auth"
+      - OAUTH_AUTHORIZE_URL="https://iam-client-test.us-east.philips-healthsuite.com/authorize/oauth2/v2/authorize"
+      - OAUTH_TOKEN_URL="https://iam-client-test.us-east.philips-healthsuite.com/authorize/oauth2/v2/token"
+      - OAUTH_USERINFO_URL="https://iam-client-test.us-east.philips-healthsuite.com/authorize/oauth2/v2/userinfo"
+      - OAUTH_ENDSESSION_URL="https://iam-client-test.us-east.philips-healthsuite.com/authorize/oauth2/terminate-session"
       - OAUTH_CLIENT_ID="myid"
       - OAUTH_CLIENT_SECRET="somesecrets"
       - OAUTH_REDIRECT_OVERRIDE=""
@@ -52,3 +52,5 @@ volumes:
 
 
 
+# https://iam-client-test.us-east.philips-healthsuite.com/authorize/oauth2/v2/.well-known/openid-configuration
+# https://localhost:8080/index.php?module=LoginOIDC&action=callback&provider=oidc
