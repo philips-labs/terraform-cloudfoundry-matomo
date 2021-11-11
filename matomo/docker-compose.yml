@@ -1,0 +1,56 @@
+version: '3.7'
+
+
+services:
+  db:
+    image: mysql
+    command: --max-allowed-packet=64MB --local-infile=ON
+    restart: always
+    volumes:
+      - db:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=password123
+      - MYSQL_DATABASE=matomo
+      - MYSQL_USER=matomo          
+      - MYSQL_PASSWORD=password123
+  matomo:
+    build: 
+      context: .
+      args:
+        MATOMO_VERSION: 4.5-apache
+    restart: always    
+    volumes:
+      - ./config.ini.tmpl.php:/var/www/html/config/config.ini.tmpl.php
+    environment:
+      - MYSQL_ROOT_PASSWORD=matomo
+      - MYSQL_DATABASE=matomo
+      - MYSQL_USER=matomo          
+      - MYSQL_PASSWORD=password123
+      - MATOMO_DATABASE_HOST=db
+      - MATOMO_DATABASE_ADAPTER=mysql
+      - MATOMO_DATABASE_TABLES_PREFIX=matomo_
+      - MATOMO_DATABASE_USERNAME=matomo
+      - MATOMO_DATABASE_PASSWORD=password123
+      - MATOMO_DATABASE_DBNAME=matomo    
+      - MATOMO_FORCE_SSL=0
+      - MATOMO_TRUSTED_HOST="localhost:8080"
+      - OAUTH_AUTHORIZE_URL="https://iam-client-test.us-east.philips-healthsuite.com/authorize/oauth2/v2/authorize"
+      - OAUTH_TOKEN_URL="https://iam-client-test.us-east.philips-healthsuite.com/authorize/oauth2/v2/token"
+      - OAUTH_USERINFO_URL="https://iam-client-test.us-east.philips-healthsuite.com/authorize/oauth2/v2/userinfo"
+      - OAUTH_ENDSESSION_URL="https://iam-client-test.us-east.philips-healthsuite.com/authorize/oauth2/terminate-session"
+      - OAUTH_CLIENT_ID="myid"
+      - OAUTH_CLIENT_SECRET="somesecrets"
+      - OAUTH_REDIRECT_OVERRIDE=""
+      - OAUTH_SIGNUP_DOMAINS="@philps.com"
+          
+    ports:
+      - 8080:80
+
+volumes:
+  db:  
+
+
+
+
+# https://iam-client-test.us-east.philips-healthsuite.com/authorize/oauth2/v2/.well-known/openid-configuration
+# https://localhost:8080/index.php?module=LoginOIDC&action=callback&provider=oidc

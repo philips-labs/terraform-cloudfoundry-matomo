@@ -11,7 +11,7 @@ resource "random_string" "matomo_salt" {
 
 resource "cloudfoundry_app" "matomo" {
   name         = "matomo"
-  space        = cloudfoundry_space.space.id
+  space        = var.space_id
   memory       = 512
   disk_quota   = 2048
   docker_image = var.matomo_image
@@ -28,6 +28,10 @@ resource "cloudfoundry_app" "matomo" {
     MATOMO_DOMAINS                = cloudfoundry_route.matomo.endpoint
     MATOMO_ADMIN_PASSWORD         = random_password.admin_password.result
     MATOMO_GENERAL_SALT           = random_string.matomo_salt.result
+    MATOMO_TRUSTED_HOST           = cloudfoundry_route.matomo.endpoint
+    MATOMO_FORCE_SSL              = "1"
+    MATOMO_ASSUME_SSL             = "1"
+    MATOMO_TRUSTED_HOST           = "https://${cloudfoundry_route.matomo.endpoint}"
   }, var.environment)
 
   routes {
@@ -37,8 +41,6 @@ resource "cloudfoundry_app" "matomo" {
 
 resource "cloudfoundry_route" "matomo" {
   domain   = data.cloudfoundry_domain.app_domain.id
-  space    = cloudfoundry_space.space.id
+  space    = var.space_id
   hostname = var.hostname
-
-  depends_on = [cloudfoundry_space_users.users]
 }

@@ -1,6 +1,6 @@
-variable "cf_org_name" {
-  description = "Cloudfoundry ORG name to deploy to."
+variable "space_id" {
   type        = string
+  description = "The CloudFoundry space to deploy matomo to"
 }
 
 variable "cf_app_domain" {
@@ -8,10 +8,6 @@ variable "cf_app_domain" {
   type        = string
 }
 
-variable "cf_user" {
-  description = "The Cloudfoundry user to assign rights to the app/space to"
-  type        = string
-}
 
 variable "name_postfix" {
   type        = string

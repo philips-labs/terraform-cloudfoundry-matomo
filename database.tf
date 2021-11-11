@@ -4,7 +4,7 @@ data "cloudfoundry_service" "rds" {
 
 resource "cloudfoundry_service_instance" "database" {
   name         = "matomo-rds"
-  space        = cloudfoundry_space.space.id
+  space        = var.space_id
   service_plan = data.cloudfoundry_service.rds.service_plans[var.db_plan]
   json_params  = var.db_json_params
 }
