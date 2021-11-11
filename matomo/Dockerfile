@@ -1,5 +1,4 @@
-ARG MATOMO_VERSION
-FROM matomo:$MATOMO_VERSION
+FROM matomo:4.5-apache
 
 RUN apt-get update && \
 apt-get install --no-install-recommends -y supervisor cron && \
