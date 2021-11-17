@@ -32,7 +32,7 @@ resource "cloudfoundry_app" "matomo" {
     MATOMO_FORCE_SSL              = "1"
     MATOMO_ASSUME_SSL             = "1"
     MATOMO_TRUSTED_HOST           = "https://${cloudfoundry_route.matomo.endpoint}"
-  }, var.environment)
+  }, local.matomo.environment)
 
   routes {
     route = cloudfoundry_route.matomo.id
