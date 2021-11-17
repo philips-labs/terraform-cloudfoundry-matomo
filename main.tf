@@ -14,10 +14,10 @@ resource "cloudfoundry_app" "matomo" {
   space        = var.space_id
   memory       = 512
   disk_quota   = 2048
-  docker_image = var.matomo_image
+  docker_image = local.matomo.docker_image
   docker_credentials = {
-    username = var.docker_username
-    password = var.docker_password
+    username = local.matomo.docker_username
+    password = local.matomo.docker_password
   }
   environment = merge({
     MATOMO_DATABASE_HOST          = cloudfoundry_service_key.database_key.credentials.hostname

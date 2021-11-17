@@ -8,7 +8,6 @@ variable "cf_app_domain" {
   type        = string
 }
 
-
 variable "name_postfix" {
   type        = string
   description = "The postfix string to append to the space name. Prevents namespace clashes"
@@ -18,30 +17,6 @@ variable "name_postfix" {
 variable "hostname" {
   type        = string
   description = "The hostname to use on the cf_app_domain for public access"
-}
-
-variable "matomo_image" {
-  description = "Image to use for matomo app"
-  default     = "philipslabs/cf-matomo:latest"
-  type        = string
-}
-
-variable "environment" {
-  type        = map(any)
-  description = "Pass extra environment variables to the app"
-  default     = {}
-}
-
-variable "docker_username" {
-  type        = string
-  description = "Docker registry username"
-  default     = ""
-}
-
-variable "docker_password" {
-  type        = string
-  description = "Docker registry password"
-  default     = ""
 }
 
 variable "db_broker" {
@@ -60,4 +35,35 @@ variable "db_json_params" {
   type        = string
   description = "Optional DB JSON params"
   default     = "{}"
+}
+
+
+variable "matomo" {
+  type = object({
+    docker_image    = optional(string)
+    docker_username = optional(string)
+    docker_password = optional(string)
+    environment     = optional(map(any))
+  })
+  default = {}
+}
+
+variable "oidc_proxy" {
+  type = object({
+    docker_image    = optional(string)
+    docker_username = optional(string)
+    docker_password = optional(string)
+  })
+  default = {}
+}
+
+locals {  
+  matomo = defaults(var.matomo, {
+    docker_image = "philipslabs/cf-matomo:latest"
+    environment  = {}
+  })
+
+  oidc_proxy = defaults(var.oidc_proxy, {
+    docker_image = "philipslabs/cf-matomo-oidcproxy:latest"
+  })
 }
