@@ -1,4 +1,4 @@
-resource "cloudfoundry_app" "matomo" {
+resource "cloudfoundry_app" "oidcproxy" {
   name         = "oidcproxy"
   space        = var.space_id
   memory       = 128
