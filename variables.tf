@@ -57,10 +57,9 @@ variable "oidc_proxy" {
   default = {}
 }
 
-locals {  
+locals {
   matomo = defaults(var.matomo, {
     docker_image = "philipslabs/cf-matomo:latest"
-    environment  = {}
   })
 
   oidc_proxy = defaults(var.oidc_proxy, {
