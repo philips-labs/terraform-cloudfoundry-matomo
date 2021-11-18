@@ -14,6 +14,7 @@ resource "cloudfoundry_app" "oidcproxy" {
 
   routes {
     route = cloudfoundry_route.oidc_proxy.id
+    port  = 8080
   }
 
   health_check_type = "none"
