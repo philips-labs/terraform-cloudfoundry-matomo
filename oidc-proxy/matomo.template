@@ -1,5 +1,7 @@
 log_format upstreamlog '[$time_local] $remote_addr - $remote_user - $server_name $host to: $upstream_addr: $request $status upstream_response_time $upstream_response_time msec $msec request_time $request_time';
 
+resolver 169.254.0.2;
+
 upstream matomo {
     server ${MATOMO_HOST}:443;
     keepalive 20;
@@ -7,7 +9,6 @@ upstream matomo {
 
 server {
   listen 8080;
-  resolver 169.254.0.2;
 
   location /_oauth/callback/ { 
     rewrite ^/_oauth/callback?(.*) /index.php?module=LoginOIDC&action=callback&provider=oidc break;
@@ -18,7 +19,7 @@ server {
     proxy_set_header Host $http_host;
   }
 
-  error_log /dev/stdout debug;
+  error_log /dev/stdout info;
   access_log /dev/stdout upstreamlog;
   rewrite_log on;
 }
