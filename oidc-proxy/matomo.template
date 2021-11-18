@@ -1,13 +1,13 @@
-upstream matomo {
-    server ${MATOMO_HOST}:443;    
-}
-
 server {
     listen 8080;
 
     location /_oauth/callback {
+      set $matomohost "${MATOMO_HOST}"
       rewrite ^/_oauth/callback?(.*) /index.php?module=LoginOIDC&action=callback&provider=oidc break;
-      proxy_pass https://matomo$uri$is_args$args;
+      proxy_pass https://$matomohost$uri$is_args$args;
+      proxy_set_header X-Real-IP $remote_addr;
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      proxy_set_header Host $http_host;
     }
 
     error_log /dev/stdout info;
