@@ -15,6 +15,8 @@ resource "cloudfoundry_app" "oidcproxy" {
   routes {
     route = cloudfoundry_route.oidc_proxy.id
   }
+
+  health_check_type = "none"
 }
 
 resource "cloudfoundry_route" "oidc_proxy" {
