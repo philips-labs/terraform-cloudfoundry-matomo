@@ -28,10 +28,10 @@ resource "cloudfoundry_app" "matomo" {
     MATOMO_DOMAINS                = cloudfoundry_route.matomo.endpoint
     MATOMO_ADMIN_PASSWORD         = random_password.admin_password.result
     MATOMO_GENERAL_SALT           = random_string.matomo_salt.result
-    MATOMO_TRUSTED_HOST           = cloudfoundry_route.matomo.endpoint
     MATOMO_FORCE_SSL              = "1"
     MATOMO_ASSUME_SSL             = "1"
     MATOMO_TRUSTED_HOST           = "https://${cloudfoundry_route.matomo.endpoint}"
+    OAUTH_REDIRECT_OVERRIDE       = "https://${cloudfoundry_route.matomo.endpoint}/_oauth/callback"
   }, local.matomo.environment)
 
   routes {

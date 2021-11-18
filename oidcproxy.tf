@@ -9,7 +9,7 @@ resource "cloudfoundry_app" "oidcproxy" {
     password = local.oidc_proxy.docker_password
   }
   environment = {
-    MATOMO_ENDPOINT = cloudfoundry_route.matomo.endpoint
+    MATOMO_HOST = cloudfoundry_route.matomo.endpoint
   }
 
   routes {
