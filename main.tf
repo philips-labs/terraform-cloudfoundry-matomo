@@ -48,14 +48,14 @@ resource "cloudfoundry_app" "matomo" {
 }
 
 resource "cloudfoundry_app" "cron" {
-  name         = "matomo"
+  name         = "cronjob"
   space        = var.space_id
-  memory       = 512
+  memory       = 128
   disk_quota   = 2048
-  docker_image = local.matomocron.docker_image
+  docker_image = local.matomo_cron.docker_image
   docker_credentials = {
-    username = local.matomocron.docker_username
-    password = local.matomocron.docker_password
+    username = local.matomo_cron.docker_username
+    password = local.matomo_cron.docker_password
   }
   environment = local.matomo_env
 }

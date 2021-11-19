@@ -57,6 +57,15 @@ variable "oidc_proxy" {
   default = {}
 }
 
+variable "matomo_cron" {
+  type = object({
+    docker_image    = optional(string)
+    docker_username = optional(string)
+    docker_password = optional(string)
+  })
+  default = {}
+}
+
 locals {
   matomo = defaults(var.matomo, {
     docker_image = "philipslabs/cf-matomo:latest"
@@ -64,5 +73,9 @@ locals {
 
   oidc_proxy = defaults(var.oidc_proxy, {
     docker_image = "philipslabs/cf-matomo-oidcproxy:latest"
+  })
+
+  matomo_cron = defaults(var.matomo_cron, {
+    docker_image = "philipslabs/cf-matomo-cron:latest"
   })
 }
