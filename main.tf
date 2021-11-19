@@ -58,4 +58,6 @@ resource "cloudfoundry_app" "cron" {
     password = local.matomo_cron.docker_password
   }
   environment = local.matomo_env
+
+  health_check_type = "none"
 }
