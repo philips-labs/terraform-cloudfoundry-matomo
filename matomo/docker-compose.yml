@@ -20,7 +20,7 @@ services:
       dockerfile: Dockerfile 
     restart: always    
     volumes:
-      - ./config.ini.tmpl.php:/var/www/html/config/config.ini.tmpl.php
+      - ./config.ini.tmpl.php:/config.ini.tmpl.php
     env_file:
       - .env.dev          
     ports:
@@ -32,7 +32,7 @@ services:
       dockerfile: Dockerfile.cron     
     restart: always    
     volumes:
-      - ./config.ini.tmpl.php:/var/www/html/config/config.ini.tmpl.php
+      - ./config.ini.tmpl.php:/config.ini.tmpl.php
     env_file:
       - .env.dev
 
