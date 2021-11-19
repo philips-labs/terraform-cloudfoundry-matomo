@@ -17,8 +17,7 @@ crontab /etc/cron.d/matomo-archive
 
 WORKDIR /var/www/html
 
-COPY config.ini.tmpl.php /config.ini.tmpl.php
 COPY cf-entrypoint.sh /cf-entrypoint.sh
+COPY config.ini.tmpl.php /config.ini.tmpl.php
 
-SHELL ["/bin/bash", "-c"]
-CMD /cf-entrypoint.sh /bin/bash -c "declare -p | grep -E 'MATOMO_TRUSTED_HOST' > /container.env && cron -f -l 0"
+CMD ["/cf-entrypoint.sh", "/bin/bash", "-c", "declare -p | grep -E 'MATOMO_TRUSTED_HOST' > /container.env && cron -f"]
