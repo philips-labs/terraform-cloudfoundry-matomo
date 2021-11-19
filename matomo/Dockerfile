@@ -16,6 +16,8 @@ RUN curl -L -o /tmp/LoginOIDC.tar.gz https://github.com/dominik-th/matomo-plugin
 mkdir -p /usr/src/matomo/plugins/LoginOIDC && \
 tar -xf /tmp/LoginOIDC.tar.gz --strip-components=1 -C /usr/src/matomo/plugins/LoginOIDC
 
+COPY apache2.conf /etc/apache2/apache2.conf
+
 WORKDIR /var/www/html
 
 COPY config.ini.tmpl.php /config.ini.tmpl.php
