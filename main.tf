@@ -14,10 +14,10 @@ resource "cloudfoundry_app" "matomo" {
   space        = var.space_id
   memory       = 512
   disk_quota   = 2048
-  docker_image = var.matomo_image
+  docker_image = local.matomo.docker_image
   docker_credentials = {
-    username = var.docker_username
-    password = var.docker_password
+    username = local.matomo.docker_username
+    password = local.matomo.docker_password
   }
   environment = merge({
     MATOMO_DATABASE_HOST          = cloudfoundry_service_key.database_key.credentials.hostname
@@ -28,11 +28,11 @@ resource "cloudfoundry_app" "matomo" {
     MATOMO_DOMAINS                = cloudfoundry_route.matomo.endpoint
     MATOMO_ADMIN_PASSWORD         = random_password.admin_password.result
     MATOMO_GENERAL_SALT           = random_string.matomo_salt.result
-    MATOMO_TRUSTED_HOST           = cloudfoundry_route.matomo.endpoint
     MATOMO_FORCE_SSL              = "1"
     MATOMO_ASSUME_SSL             = "1"
     MATOMO_TRUSTED_HOST           = "https://${cloudfoundry_route.matomo.endpoint}"
-  }, var.environment)
+    OAUTH_REDIRECT_OVERRIDE       = "https://${cloudfoundry_route.matomo.endpoint}/_oauth/callback/"
+  }, local.matomo.environment)
 
   routes {
     route = cloudfoundry_route.matomo.id
