@@ -9,17 +9,14 @@ resource "random_string" "matomo_salt" {
   upper   = false
 }
 
-resource "cloudfoundry_app" "matomo" {
-  name         = "matomo"
-  space        = var.space_id
-  memory       = 512
-  disk_quota   = 2048
-  docker_image = local.matomo.docker_image
-  docker_credentials = {
-    username = local.matomo.docker_username
-    password = local.matomo.docker_password
-  }
-  environment = merge({
+resource "cloudfoundry_route" "matomo" {
+  domain   = data.cloudfoundry_domain.app_domain.id
+  space    = var.space_id
+  hostname = var.hostname
+}
+
+locals {
+  matomo_env = merge({
     MATOMO_DATABASE_HOST          = cloudfoundry_service_key.database_key.credentials.hostname
     MATOMO_DATABASE_TABLES_PREFIX = "matomo_"
     MATOMO_DATABASE_USERNAME      = cloudfoundry_service_key.database_key.credentials.username
@@ -31,16 +28,34 @@ resource "cloudfoundry_app" "matomo" {
     MATOMO_FORCE_SSL              = "1"
     MATOMO_ASSUME_SSL             = "1"
     MATOMO_TRUSTED_HOST           = "https://${cloudfoundry_route.matomo.endpoint}"
-    OAUTH_REDIRECT_OVERRIDE       = "https://${cloudfoundry_route.matomo.endpoint}/_oauth/callback/"
   }, local.matomo.environment)
+}
+resource "cloudfoundry_app" "matomo" {
+  name         = "matomo"
+  space        = var.space_id
+  memory       = 512
+  disk_quota   = 2048
+  docker_image = local.matomo.docker_image
+  docker_credentials = {
+    username = local.matomo.docker_username
+    password = local.matomo.docker_password
+  }
+  environment = local.matomo_env
 
   routes {
     route = cloudfoundry_route.matomo.id
   }
 }
 
-resource "cloudfoundry_route" "matomo" {
-  domain   = data.cloudfoundry_domain.app_domain.id
-  space    = var.space_id
-  hostname = var.hostname
+resource "cloudfoundry_app" "cron" {
+  name         = "matomo"
+  space        = var.space_id
+  memory       = 512
+  disk_quota   = 2048
+  docker_image = local.matomocron.docker_image
+  docker_credentials = {
+    username = local.matomocron.docker_username
+    password = local.matomocron.docker_password
+  }
+  environment = local.matomo_env
 }
