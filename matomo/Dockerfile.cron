@@ -1,0 +1,24 @@
+FROM matomo:4.5-apache
+
+RUN apt-get update && \
+apt-get install --no-install-recommends -y cron && \
+apt-get clean && \
+rm -rf /var/lib/apt/lists/*
+
+# Install envsubst
+RUN curl -L "https://github.com/a8m/envsubst/releases/download/v1.1.0/envsubst-$(uname -s)-$(uname -m)" -o envsubst && \
+  chmod +x envsubst && \
+  mv envsubst /usr/local/bin
+
+# Setup crontab to perform the matomo archive
+COPY matomo-archive /etc/cron.d/matomo-archive
+RUN chmod 0644 /etc/cron.d/matomo-archive && \
+crontab /etc/cron.d/matomo-archive
+
+WORKDIR /var/www/html
+
+COPY config.ini.tmpl.php /config.ini.tmpl.php
+COPY cf-entrypoint.sh /cf-entrypoint.sh
+
+SHELL ["/bin/bash", "-c"]
+CMD /cf-entrypoint.sh /bin/bash -c "declare -p | grep -E 'MATOMO_TRUSTED_HOST' > /container.env && cron -f -l 0"

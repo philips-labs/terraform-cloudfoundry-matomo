@@ -40,5 +40,15 @@ jobs:
           push: true
           tags: philipslabs/cf-matomo:${{ steps.matomo_version.outputs.matomo_version }}
 
+      - name: Build and push cron
+        id: docker_build_cron
+        uses: docker/build-push-action@v2
+        with:
+          context: ./matomo
+          file: ./matomo/Dockerfile.cron
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: philipslabs/cf-matomo-cron:${{ steps.vars.outputs.tag }}
+
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
