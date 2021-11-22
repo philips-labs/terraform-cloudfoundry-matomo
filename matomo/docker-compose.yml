@@ -22,9 +22,7 @@ services:
     volumes:
       - ./config.ini.tmpl.php:/config.ini.tmpl.php
     env_file:
-      - .env.dev          
-    ports:
-      - 8080:80
+      - .env.dev
 
   cron:
     build: 
@@ -35,6 +33,19 @@ services:
       - ./config.ini.tmpl.php:/config.ini.tmpl.php
     env_file:
       - .env.dev
+
+  web:
+    build: 
+      context: .   
+      dockerfile: Dockerfile.proxy
+    restart: always        
+    env_file:
+      - .env.dev          
+    ports:
+      - 8080:8080
+    environment:
+      - MATOMO_INTERNAL_HOST=matomo:80
+      - MATOMO_HOST=localhost
 
 volumes:
   db:  

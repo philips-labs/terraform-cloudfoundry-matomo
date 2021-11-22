@@ -13,8 +13,8 @@ proxy_client_headers[] = "HTTP_X_FORWARDED_FOR"
 proxy_host_headers[] = "HTTP_X_FORWARDED_HOST"
 salt = "${MATOMO_GENERAL_SALT}"
 trusted_hosts[] = "${MATOMO_TRUSTED_HOST}"
-force_ssl = "${MATOMO_FORCE_SSL:-1}"
-assume_secure_protocol = "${MATOMO_ASSUME_SSL:-1}"
+force_ssl = ${MATOMO_FORCE_SSL:-1}
+assume_secure_protocol = ${MATOMO_ASSUME_SSL:-1}
 browser_archiving_disabled_enforce = 1
 
 [Plugins]
