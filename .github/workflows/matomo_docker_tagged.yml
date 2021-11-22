@@ -54,5 +54,16 @@ jobs:
           push: true
           tags: philipslabs/cf-matomo-cron:${{ steps.vars.outputs.tag }}
 
+        
+      - name: Build and push proxy
+        id: docker_build_proxy
+        uses: docker/build-push-action@v2
+        with:
+          context: ./matomo
+          file: ./matomo/Dockerfile.proxy
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: philipslabs/cf-matomo-proxy:${{ steps.vars.outputs.tag }}
+
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
