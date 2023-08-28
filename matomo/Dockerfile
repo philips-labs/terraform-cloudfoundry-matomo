@@ -20,7 +20,7 @@ RUN chmod 0644 /etc/cron.d/matomo-archive && \
 crontab /etc/cron.d/matomo-archive
 
 # Install the GeoIP database
-RUN curl -L -o /tmp/dbip.mmdb.gz https://download.db-ip.com/free/dbip-city-lite-2021-10.mmdb.gz && \
+RUN curl -L -o /tmp/dbip.mmdb.gz https://download.db-ip.com/free/dbip-city-lite-2023-08.mmdb.gz && \
 mkdir -p /var/www/html/misc/ && \
 gzip -d < /tmp/dbip.mmdb.gz > /var/www/html/misc/DBIP-City.mmdb
 
